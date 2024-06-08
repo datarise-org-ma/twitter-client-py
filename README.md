@@ -12,7 +12,7 @@ pip install twitter-client-py
 ```python
 from os import getenv
 
-from twitter_v2 import TwitterClient
+from twitter_client_py import TwitterClient
 
 api_key = getenv('API_KEY')
 

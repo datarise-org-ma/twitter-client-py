@@ -43,7 +43,7 @@ class TwitterClient:
         self.timeout: int = timeout
         self.__base_url: str = __base__
         self.__headers: Dict = self.__get_headers()
-        self.__session: Optional[requests.Session] = None
+        self.__session: Optional[requests.Session] = requests.Session()
         if self.verbose:
             LOGGER = setup_logging(logging.DEBUG)
         else:
