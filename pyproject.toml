@@ -9,3 +9,6 @@ version = "0.1.1"
 description = "Python client for interacting with Twitter V2 API available at twitter-x.p.rapidapi.com/"
 requires-python = ">=3.7"
 dependencies = ["aiohttp", "requests"]
+
+[options]
+packages = find:
