@@ -1,8 +1,8 @@
 import logging
 
-__host__ = ""
+__host__ = "twitter-x.p.rapidapi.com/"
 __base__ = f"https://{__host__}/"
-__api__ = ""
+__api__ = "https://rapidapi.com/datarise-datarise-default/api/twitter-x"
 __version__ = "0.1.0"
 __author__ = "Datarise"
 __name__ = "twitter-client-py"
