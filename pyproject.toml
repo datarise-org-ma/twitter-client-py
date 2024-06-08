@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "twitter-v2"
+name = "twitter-client-py"
 authors = [{ name = "Omar MHAIMDAT", email = "omarmhaimdat@gmail.com" }]
 version = "0.1.0"
 description = "Python client for interacting with Twitter V2 API available at twitter-x.p.rapidapi.com/"
