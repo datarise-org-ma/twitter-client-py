@@ -12,3 +12,4 @@ dependencies = ["aiohttp", "requests"]
 
 [options]
 packages = find:
+install_requires = ["aiohttp", "requests"]
