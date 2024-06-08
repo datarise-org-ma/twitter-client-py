@@ -57,4 +57,4 @@ jobs:
         python3 -m twine upload dist/* --verbose
       env:
         TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
