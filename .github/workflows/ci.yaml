@@ -6,6 +6,11 @@ on:
     tags:
       - '*.*.*'
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
 jobs:
   build:
     name: Build distribution 📦
@@ -70,10 +75,6 @@ jobs:
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
-        permissions:
-          contents: write
-          issues: write
-          pull-requests: write
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
