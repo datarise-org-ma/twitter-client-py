@@ -110,9 +110,9 @@ async def main():
     tasks = [get_user_details(username) for username in users]
     results = await asyncio.gather(*tasks)
     for result in results:
-        print(json.dumps(result, indent=4))
+        print(json.dumps(await result, indent=4))
 
-asyncio.run(main())
+await main()
 ```
 
 ### Check Rate Limit
