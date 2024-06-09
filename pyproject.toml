@@ -15,4 +15,4 @@ version = {attr = "twitter_client_py.__version__"}
 
 [tool.setuptools.dynamic.readme]
 file = "README.md"
-content_type = "text/markdown"
+content-type = "text/markdown"
