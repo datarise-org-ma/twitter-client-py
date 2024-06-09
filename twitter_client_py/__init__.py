@@ -26,6 +26,7 @@ LOGGER = logging.getLogger(__name__)
 
 from .async_twitter_client import AsyncTwitterClient
 from .twitter_client import TwitterClient
+from rate_limit import RateLimit
 
 __all__ = [
     "__base__",
@@ -34,4 +35,5 @@ __all__ = [
     "__name__",
     "AsyncTwitterClient",
     "TwitterClient",
+    "RateLimit",
 ]

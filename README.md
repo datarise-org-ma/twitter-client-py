@@ -1,28 +1,113 @@
 # Twitter Python Client for [Twitter/X Rapid API](https://rapidapi.com/datarise-datarise-default/api/twitter-x)
 
+<!-- Add badges for CI/CD, Code Coverage, PyPI, etc. -->
+[![PyPI](https://img.shields.io/pypi/v/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
+[![PyPI - License](https://img.shields.io/pypi/l/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
+
 
 ## Installation
 
 ```bash
-pip install twitter-client-py
+pip install -U twitter-client-py
 ```
 
 ## Usage
 
+### Simple Example
+
+The following example demonstrates how to use the library to get user details and tweets.
+
 ```python
 from os import getenv
+import json
 
 from twitter_client_py import TwitterClient
 
 api_key = getenv('API_KEY')
 
-client = TwitterClient(api_key)
+client = TwitterClient(api_key=api_key, timeout=20, verbose=True)
 
-# Get user by username
-user = client.get_user_by_username('elonmusk')
-print(user)
+# Get user details by username
+user_details  = client.user_details(username='elonmusk')
+if user_details.status_code == 200:
+    print(json.dumps(user_details.json(), indent=4))
 
-# Get user by id
-user = client.get_user_by_id('44196397')
-print(user)
+# Get user details by id
+user_details  = client.user_details(user_id='44196397')
+if user_details.status_code == 200:
+    print(json.dumps(user_details.json(), indent=4))
+
+# Get user tweets by username
+user_tweets = client.user_tweets(username='elonmusk')
+if user_tweets.status_code == 200:
+    print(json.dumps(user_tweets.json(), indent=4))
+    
+# Get user tweets by id
+user_tweets = client.user_tweets(user_id='44196397')
+if user_tweets.status_code == 200:
+    print(json.dumps(user_tweets.json(), indent=4))
 ```
+
+### Advanced Example
+
+*TwitterClient* class is thread-safe, so you can use it in a multi-threaded environment.
+
+```python
+from os import getenv
+import json
+from concurrent.futures import ThreadPoolExecutor
+
+from twitter_client_py import TwitterClient
+
+api_key = getenv('API_KEY')
+
+client = TwitterClient(api_key=api_key, timeout=20, verbose=True)
+
+users = ['elonmusk', 'BillGates', 'JeffBezos', 'tim_cook', 'satyanadella']
+
+def get_user_details(username):
+    user_details  = client.user_details(username=username)
+    if user_details.status_code == 200:
+        return user_details.json()
+
+with ThreadPoolExecutor(max_workers=5) as executor:
+    results = executor.map(get_user_details, users)
+
+for result in results:
+    print(json.dumps(result, indent=4))
+```
+
+### Asynchronous Example
+
+The library also supports asynchronous requests using `aiohttp` with `asyncio`
+
+```python
+from os import getenv
+import asyncio
+import json
+
+from twitter_client_py import AsyncTwitterClient
+
+api_key = getenv('API_KEY')
+
+client = AsyncTwitterClient(api_key=api_key, timeout=20, verbose=True)
+
+users = ['elonmusk', 'BillGates', 'JeffBezos', 'tim_cook', 'satyanadella']
+
+async def get_user_details(username):
+    user_details  = await client.user_details(username=username)
+    if user_details.status == 200:
+        return user_details.json()
+
+async def main():
+    tasks = [get_user_details(username) for username in users]
+    results = await asyncio.gather(*tasks)
+    for result in results:
+        print(json.dumps(result, indent=4))
+
+asyncio.run(main())
+```
+
+

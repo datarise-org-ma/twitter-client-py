@@ -34,6 +34,9 @@ class TwitterClient:
         list_tweets(list_id, limit=20, cursor=None): Get tweets of a list.
         trends_locations(): Get locations for trends.
         trends(woeid): Get trends for a location.
+        community_details(community_id): Get details of a community.
+        community_tweets(community_id, limit=20, cursor=None): Get tweets of a community.
+        community_members(community_id, limit=20, cursor=None): Get members of a community.
     """
 
     def __init__(self, api_key: str, timeout: int = 20, verbose: bool = False):
@@ -77,7 +80,9 @@ class TwitterClient:
         }
         if cursor:
             params["cursor"] = cursor
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -97,7 +102,9 @@ class TwitterClient:
             f"[Tweet Details] Tweet ID: {tweet_id}",
             extra={"limit": self.rate_limit.remaining},
         )
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -120,7 +127,9 @@ class TwitterClient:
             f"[Tweet Retweeters] Tweet ID: {tweet_id} - Limit: {limit}",
             extra={"limit": self.rate_limit.remaining},
         )
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -143,7 +152,9 @@ class TwitterClient:
             f"[Favoriters] Tweet ID: {tweet_id} - Limit: {limit}",
             extra={"limit": self.rate_limit.remaining},
         )
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -169,7 +180,9 @@ class TwitterClient:
                 f"[User Details] User ID: {user_id}",
                 extra={"limit": self.rate_limit.remaining},
             )
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -203,7 +216,9 @@ class TwitterClient:
             )
         if cursor:
             params["cursor"] = cursor
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -237,7 +252,9 @@ class TwitterClient:
             )
         if cursor:
             params["cursor"] = cursor
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -271,7 +288,9 @@ class TwitterClient:
             )
         if cursor:
             params["cursor"] = cursor
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -305,7 +324,9 @@ class TwitterClient:
             )
         if cursor:
             params["cursor"] = cursor
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -339,7 +360,9 @@ class TwitterClient:
             )
         if cursor:
             params["cursor"] = cursor
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -373,7 +396,9 @@ class TwitterClient:
             )
         if cursor:
             params["cursor"] = cursor
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -391,7 +416,9 @@ class TwitterClient:
             f"[List Details] List ID: {list_id}",
             extra={"limit": self.rate_limit.remaining},
         )
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -412,7 +439,9 @@ class TwitterClient:
             f"[List Tweets] List ID: {list_id} - Limit: {limit}",
             extra={"limit": self.rate_limit.remaining},
         )
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
@@ -441,11 +470,83 @@ class TwitterClient:
         LOGGER.info(
             f"[Trends] WOEID: {woeid}", extra={"limit": self.rate_limit.remaining}
         )
-        with self.__session.get(url, params=params, headers=self.__headers, timeout=self.timeout) as response:
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
                 f"[Trends] Response: {response.status_code}, elapsed time: {response.elapsed.total_seconds()}",
+                extra={"limit": self.rate_limit.remaining},
+            )
+            return response
+
+    def community_details(self, community_id: str) -> requests.Response:
+        url = f"{self.__base_url}community/details"
+        params = {
+            "community_id": community_id,
+        }
+        LOGGER.info(
+            f"[Community Details] Community ID: {community_id}",
+            extra={"limit": self.rate_limit.remaining},
+        )
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
+            if response.status_code == 200:
+                self.rate_limit = RateLimit.from_headers(response.headers)
+            LOGGER.debug(
+                f"[Community Details] Response: {response.status_code}, elapsed time: {response.elapsed.total_seconds()}",
+                extra={"limit": self.rate_limit.remaining},
+            )
+            return response
+
+    def community_tweets(
+        self, community_id: str, limit=20, cursor=None
+    ) -> requests.Response:
+        url = f"{self.__base_url}community/tweets"
+        params = {
+            "community_id": community_id,
+            "limit": limit,
+        }
+        if cursor:
+            params["cursor"] = cursor
+        LOGGER.info(
+            f"[Community Tweets] Community ID: {community_id} - Limit: {limit}",
+            extra={"limit": self.rate_limit.remaining},
+        )
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
+            if response.status_code == 200:
+                self.rate_limit = RateLimit.from_headers(response.headers)
+            LOGGER.debug(
+                f"[Community Tweets] Response: {response.status_code}, elapsed time: {response.elapsed.total_seconds()}",
+                extra={"limit": self.rate_limit.remaining},
+            )
+            return response
+
+    def community_members(
+        self, community_id: str, limit=20, cursor=None
+    ) -> requests.Response:
+        url = f"{self.__base_url}community/members"
+        params = {
+            "community_id": community_id,
+            "limit": limit,
+        }
+        if cursor:
+            params["cursor"] = cursor
+        LOGGER.info(
+            f"[Community Members] Community ID: {community_id} - Limit: {limit}",
+            extra={"limit": self.rate_limit.remaining},
+        )
+        with self.__session.get(
+            url, params=params, headers=self.__headers, timeout=self.timeout
+        ) as response:
+            if response.status_code == 200:
+                self.rate_limit = RateLimit.from_headers(response.headers)
+            LOGGER.debug(
+                f"[Community Members] Response: {response.status_code}, elapsed time: {response.elapsed.total_seconds()}",
                 extra={"limit": self.rate_limit.remaining},
             )
             return response

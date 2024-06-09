@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "twitter-client-py"
 authors = [{ name = "Omar MHAIMDAT", email = "omarmhaimdat@gmail.com" }]
-version = "0.1.5"
-description = "Python client for interacting with Twitter V2 API available at twitter-x.p.rapidapi.com/"
+version = "0.2.0"
+description = "Python client for interacting with Twitter V2 API available at https://rapidapi.com/datarise-datarise-default/api/twitter-x"
 requires-python = ">=3.7"
 dependencies = ["aiohttp", "requests"]

@@ -5,13 +5,43 @@ import time
 
 import aiohttp
 
-from . import __base__, __host__, LOGGER, setup_logging
+from . import __base__, __host__, __api__, LOGGER, setup_logging
 from .rate_limit import RateLimit
 
 sem = asyncio.Semaphore(100)
 
 
 class AsyncTwitterClient:
+    f"""
+    A Python Asynchronous Twitter/X API client for {__api__}
+    
+    Attributes:
+        api_key (str): The API key for the API.
+        timeout (int): The timeout for the requests. Default is 20.
+        verbose (bool): Whether to enable verbose logging. Default is False.
+        rate_limit (RateLimit): The rate limit object updated after each request.
+        
+    Methods:
+        search(query, section, limit, cursor): Search for tweets.
+        tweet_details(tweet_id, cursor): Get details of a tweet.
+        tweet_retweeters(tweet_id, limit, cursor): Get retweeters of a tweet.
+        tweet_favoriters(tweet_id, limit, cursor): Get favoriters of a tweet.
+        user_details(username, user_id): Get details of a user.
+        user_tweets(username, user_id, limit, cursor): Get tweets of a user.
+        user_tweets_and_replies(username, user_id, limit, cursor): Get tweets and replies of a user.
+        user_followers(username, user_id, limit, cursor): Get followers of a user.
+        user_following(username, user_id, limit, cursor): Get following of a user.
+        user_likes(username, user_id, limit, cursor): Get likes of a user.
+        user_media(username, user_id, limit, cursor): Get media of a user.
+        list_details(list_id): Get details of a list.
+        list_tweets(list_id, limit, cursor): Get tweets of a list.
+        trends_locations(): Get available trends locations.
+        trends(woeid): Get trends for a location.
+        community_details(community_id): Get details of a community.
+        community_tweets(community_id, limit, cursor): Get tweets of a community.
+        community_members(community_id, limit, cursor): Get members of a community.
+    """
+
     def __init__(
         self, api_key: str, timeout: int = 20, verbose: bool = False, loop=None
     ):
@@ -22,6 +52,7 @@ class AsyncTwitterClient:
         self.session: Optional[aiohttp.ClientSession] = aiohttp.ClientSession(
             loop=self.loop
         )
+        self.session.headers.update(self.headers)
         self.rate_limit: Optional[RateLimit] = RateLimit(0, 0, 0)
         self.verbose: bool = verbose
         self.timeout: int = timeout
@@ -412,6 +443,65 @@ class AsyncTwitterClient:
             self.rate_limit = RateLimit.from_headers(response.headers)
         LOGGER.debug(
             f"[Trends] Response: {response.status}, elapsed time: {time.perf_counter() - start:.2f}s",
+            extra={"limit": self.rate_limit.remaining},
+        )
+        return response
+
+    async def community_details(self, community_id: str) -> aiohttp.ClientResponse:
+        url = f"{self.base_url}community/details"
+        LOGGER.info(
+            f"[Community Details] Community ID: {community_id}",
+            extra={"limit": self.rate_limit.remaining},
+        )
+        params = {"community_id": community_id}
+        start = time.perf_counter()
+        response = await self.session.get(url, params=params, timeout=self.timeout)
+        if response.status == 200:
+            self.rate_limit = RateLimit.from_headers(response.headers)
+        LOGGER.debug(
+            f"[Community Details] Response: {response.status}, elapsed time: {time.perf_counter() - start:.2f}s",
+            extra={"limit": self.rate_limit.remaining},
+        )
+        return response
+
+    async def community_tweets(
+        self, community_id: str, limit=20, cursor=None
+    ) -> aiohttp.ClientResponse:
+        url = f"{self.base_url}community/tweets"
+        LOGGER.info(
+            f"[Community Tweets] Community ID: {community_id} - Limit: {limit}",
+            extra={"limit": self.rate_limit.remaining},
+        )
+        params = {"community_id": community_id, "limit": limit}
+        if cursor:
+            params["cursor"] = cursor
+        start = time.perf_counter()
+        response = await self.session.get(url, params=params, timeout=self.timeout)
+        if response.status == 200:
+            self.rate_limit = RateLimit.from_headers(response.headers)
+        LOGGER.debug(
+            f"[Community Tweets] Response: {response.status}, elapsed time: {time.perf_counter() - start:.2f}s",
+            extra={"limit": self.rate_limit.remaining},
+        )
+        return response
+
+    async def community_members(
+        self, community_id: str, limit=20, cursor=None
+    ) -> aiohttp.ClientResponse:
+        url = f"{self.base_url}community/members"
+        LOGGER.info(
+            f"[Community Members] Community ID: {community_id} - Limit: {limit}",
+            extra={"limit": self.rate_limit.remaining},
+        )
+        params = {"community_id": community_id, "limit": limit}
+        if cursor:
+            params["cursor"] = cursor
+        start = time.perf_counter()
+        response = await self.session.get(url, params=params, timeout=self.timeout)
+        if response.status == 200:
+            self.rate_limit = RateLimit.from_headers(response.headers)
+        LOGGER.debug(
+            f"[Community Members] Response: {response.status}, elapsed time: {time.perf_counter() - start:.2f}s",
             extra={"limit": self.rate_limit.remaining},
         )
         return response
