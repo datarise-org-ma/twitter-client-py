@@ -2,7 +2,7 @@
 
 <!-- Add badges for CI/CD, Code Coverage, PyPI, etc. -->
 [![PyPI](https://img.shields.io/pypi/v/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
-![Build Status](https://github.com/username/twitter-client-py/actions/workflows/build.yml/badge.svg)
+![Build Status](https://github.com/datarise-org-ma/twitter-client-py/actions/workflows/ci.yaml/badge.svg)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
 
@@ -115,4 +115,21 @@ async def main():
 asyncio.run(main())
 ```
 
+### Check Rate Limit
 
+You can check the rate limit of the API using the `rate_limit` method. TwitterClient and AsyncTwitterClient have a `rate_limit` attribute that returns the rate limit details. It's updated after each request.
+
+```python
+rate_limit = client.rate_limit
+print(f"Limit: {rate_limit.limit}")
+print(f"Remaining requests: {rate_limit.remaining}")
+print(f"Reset time: {rate_limit.reset}")
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+If you have any questions or feedback, feel free to reach out to us at contact [at] datarise [dot] ma.
