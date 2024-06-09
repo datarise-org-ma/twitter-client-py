@@ -12,4 +12,4 @@ dependencies = ["aiohttp", "requests"]
 
 [tool.setuptools.dynamic]
 version = {attr = "twitter_client_py.__version__"}
-readme = {file = "README.md"}
+readme = {file = ["README.md"], content_type = "text/markdown"}
