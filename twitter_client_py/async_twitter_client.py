@@ -79,6 +79,18 @@ class AsyncTwitterClient:
     async def search(
         self, query, section="top", limit=20, cursor=None
     ) -> aiohttp.ClientResponse:
+        """
+        Search for tweets using the Twitter/X API.
+
+        Args:
+            query (str): The query to search for.
+            section (str): The section to search in. Possible values are "top", "latest", "people", "photos", "videos". Default is "top".
+            limit (int): The limit of tweets to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.base_url}search/"
         LOGGER.info(
             f"[Search] Query: {query} - Section: {section} - Limit: {limit}",
@@ -102,6 +114,16 @@ class AsyncTwitterClient:
         return response
 
     async def tweet_details(self, tweet_id: str, cursor=None) -> aiohttp.ClientResponse:
+        """
+        Get details of a tweet using the Twitter/X API.
+
+        Args:
+            tweet_id (str): The ID of the tweet.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.base_url}tweet/"
         LOGGER.info(
             f"[Tweet Details] Tweet ID: {tweet_id}",
@@ -123,6 +145,17 @@ class AsyncTwitterClient:
     async def tweet_retweeters(
         self, tweet_id: str, limit=20, cursor=None
     ) -> aiohttp.ClientResponse:
+        """
+        Get users who retweeted a tweet using the Twitter/X API.
+
+        Args:
+            tweet_id (str): The ID of the tweet.
+            limit (int): The limit of users to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.base_url}tweet/retweeters/"
         LOGGER.info(
             f"[Tweet Retweeters] Tweet ID: {tweet_id} - Limit: {limit}",
@@ -144,6 +177,17 @@ class AsyncTwitterClient:
     async def tweet_favoriters(
         self, tweet_id: str, limit=20, cursor=None
     ) -> aiohttp.ClientResponse:
+        """
+        Get users who favorited a tweet using the Twitter/X API.
+
+        Args:
+            tweet_id (str): The ID of the tweet.
+            limit (int): The limit of users to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.base_url}tweet/favoriters/"
         LOGGER.info(
             f"[Tweet Favoriters] Tweet ID: {tweet_id} - Limit: {limit}",
@@ -165,6 +209,18 @@ class AsyncTwitterClient:
     async def user_details(
         self, username: Optional[str] = None, user_id: Optional[str] = None
     ) -> aiohttp.ClientResponse:
+        """
+        Get details of a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
         url = f"{self.base_url}user/details"
         if username:
             LOGGER.info(
@@ -195,6 +251,21 @@ class AsyncTwitterClient:
         limit=20,
         cursor=None,
     ) -> aiohttp.ClientResponse:
+        """
+        Get tweets of a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+            limit (int): The limit of tweets to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
         url = f"{self.base_url}user/tweets"
         if username:
             LOGGER.info(
@@ -227,6 +298,20 @@ class AsyncTwitterClient:
         limit=20,
         cursor=None,
     ) -> aiohttp.ClientResponse:
+        """
+        Get tweets and replies of a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+            limit (int): The limit of tweets to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
         url = f"{self.base_url}user/tweetsandreplies"
         if username:
             LOGGER.info(
@@ -259,6 +344,20 @@ class AsyncTwitterClient:
         limit=20,
         cursor=None,
     ) -> aiohttp.ClientResponse:
+        """
+        Get followers of a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+            limit (int): The limit of followers to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
         url = f"{self.base_url}user/followers"
         if username:
             LOGGER.info(
@@ -291,6 +390,22 @@ class AsyncTwitterClient:
         limit=20,
         cursor=None,
     ) -> aiohttp.ClientResponse:
+        """
+        Get users followed by a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+            limit (int): The limit of users to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
+
         url = f"{self.base_url}user/following"
         if username:
             LOGGER.info(
@@ -323,6 +438,22 @@ class AsyncTwitterClient:
         limit=20,
         cursor=None,
     ) -> aiohttp.ClientResponse:
+        """
+        Get tweets liked by a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+            limit (int): The limit of tweets to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
+
         url = f"{self.base_url}user/likes"
         if username:
             LOGGER.info(
@@ -355,6 +486,20 @@ class AsyncTwitterClient:
         limit=20,
         cursor=None,
     ) -> aiohttp.ClientResponse:
+        """
+        Get media of a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+            limit (int): The limit of media to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
         url = f"{self.base_url}user/media"
         if username:
             LOGGER.info(
@@ -381,6 +526,15 @@ class AsyncTwitterClient:
         return response
 
     async def list_details(self, list_id: str) -> aiohttp.ClientResponse:
+        """
+        Get details of a list using the Twitter/X API.
+
+        Args:
+            list_id (str): The ID of the list.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.base_url}lists/details"
         LOGGER.info(
             f"[List Details] List ID: {list_id}",
@@ -400,6 +554,17 @@ class AsyncTwitterClient:
     async def list_tweets(
         self, list_id: str, limit=20, cursor=None
     ) -> aiohttp.ClientResponse:
+        """
+        Get tweets of a list using the Twitter/X API.
+
+        Args:
+            list_id (str): The ID of the list.
+            limit (int): The limit of tweets to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.base_url}lists/tweets"
         LOGGER.info(
             f"[List Tweets] List ID: {list_id} - Limit: {limit}",
@@ -419,6 +584,12 @@ class AsyncTwitterClient:
         return response
 
     async def trends_locations(self) -> aiohttp.ClientResponse:
+        """
+        Get locations for trends using the Twitter/X API.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.base_url}trends/available"
         LOGGER.info("[Trends Locations]", extra={"limit": self.rate_limit.remaining})
         start = time.perf_counter()
@@ -432,6 +603,15 @@ class AsyncTwitterClient:
         return response
 
     async def trends(self, woeid: str) -> aiohttp.ClientResponse:
+        """
+        Get trends for a location using the Twitter/X API.
+
+        Args:
+            woeid (str): The WOEID of the location, which can be obtained from trends_locations().
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.base_url}trends/"
         LOGGER.info(
             f"[Trends] WOEID: {woeid}", extra={"limit": self.rate_limit.remaining}
@@ -448,6 +628,15 @@ class AsyncTwitterClient:
         return response
 
     async def community_details(self, community_id: str) -> aiohttp.ClientResponse:
+        """
+        Get details of a community using the Twitter/X API.
+
+        Args:
+            community_id (str): The ID of the community.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.base_url}community/details"
         LOGGER.info(
             f"[Community Details] Community ID: {community_id}",
@@ -467,6 +656,17 @@ class AsyncTwitterClient:
     async def community_tweets(
         self, community_id: str, limit=20, cursor=None
     ) -> aiohttp.ClientResponse:
+        """
+        Get tweets of a community using the Twitter/X API.
+
+        Args:
+            community_id (str): The ID of the community.
+            limit (int): The limit of tweets to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.base_url}community/tweets"
         LOGGER.info(
             f"[Community Tweets] Community ID: {community_id} - Limit: {limit}",
@@ -488,6 +688,17 @@ class AsyncTwitterClient:
     async def community_members(
         self, community_id: str, limit=20, cursor=None
     ) -> aiohttp.ClientResponse:
+        """
+        Get members of a community using the Twitter/X API.
+
+        Args:
+            community_id (str): The ID of the community.
+            limit (int): The limit of members to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.base_url}community/members"
         LOGGER.info(
             f"[Community Members] Community ID: {community_id} - Limit: {limit}",

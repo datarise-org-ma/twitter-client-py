@@ -95,7 +95,7 @@ import json
 
 from twitter_client_py import AsyncTwitterClient
 
-api_key = getenv('API_KEY')
+api_key = getenv('API_KEY') # X-RapidAPI-Key
 
 client = AsyncTwitterClient(api_key=api_key, timeout=20, verbose=True)
 
