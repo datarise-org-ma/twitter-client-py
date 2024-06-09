@@ -34,33 +34,6 @@ jobs:
         name: python-package-distributions
         path: dist/
 
-  publish-to-pypi:
-    name: Publish 🐍 📦 to PyPI
-    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - uses: actions/setup-python@v5
-      with:
-        python-version: "3.x"
-    - name: Install twine
-      run: |
-        python3 -m pip install twine --user
-    - name: Download the distribution packages
-      uses: actions/download-artifact@v3
-      with:
-        name: python-package-distributions
-        path: dist/
-    - name: Publish to PyPI
-      run: |
-        python3 -m twine upload dist/* --verbose
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-
   create-release:
     name: Create Release
     runs-on: ubuntu-latest
@@ -108,3 +81,30 @@ jobs:
 
             Commits:
             ${{ steps.release_notes.outputs.NOTES }}
+
+  publish-to-pypi:
+    name: Publish 🐍 📦 to PyPI
+    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+    - name: Install twine
+      run: |
+        python3 -m pip install twine --user
+    - name: Download the distribution packages
+      uses: actions/download-artifact@v3
+      with:
+        name: python-package-distributions
+        path: dist/
+    - name: Publish to PyPI
+      run: |
+        python3 -m twine upload dist/* --verbose
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
