@@ -17,16 +17,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Ensure the full history is fetched
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: "3.x"
     - name: Install pypa/build
-      run: >-
-        python3 -m
-        pip install
-        build
-        --user
+      run: |
+        python3 -m pip install build --user
     - name: Build a binary wheel and a source tarball
       run: python3 -m build
     - name: Store the distribution packages
@@ -42,22 +41,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     - uses: actions/setup-python@v5
       with:
         python-version: "3.x"
     - name: Install twine
-      run: >-
-        python3 -m
-        pip install
-        twine
-        --user
+      run: |
+        python3 -m pip install twine --user
     - name: Download the distribution packages
       uses: actions/download-artifact@v3
       with:
         name: python-package-distributions
         path: dist/
     - name: Publish to PyPI
-      run: >-
+      run: |
         python3 -m twine upload dist/* --verbose
       env:
         TWINE_USERNAME: __token__
@@ -71,6 +69,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Extract version from tag
         id: version
@@ -79,13 +79,18 @@ jobs:
       - name: Get previous tag
         id: prev_tag
         run: |
-          prev_tag=$(git describe --tags --abbrev=0 HEAD^)
+          prev_tag=$(git describe --tags --abbrev=0 HEAD^ || echo "")
           echo "::set-output name=PREV_TAG::${prev_tag}"
 
       - name: Generate release notes
         id: release_notes
         run: |
-          commits=$(git log ${GITHUB_REF}...${{ steps.prev_tag.outputs.PREV_TAG }} --oneline)
+          if [ -z "${{ steps.prev_tag.outputs.PREV_TAG }}" ]; then
+            echo "No previous tag found, only showing commits from the current tag."
+            commits=$(git log ${GITHUB_REF} --oneline)
+          else
+            commits=$(git log ${{ steps.prev_tag.outputs.PREV_TAG }}..${GITHUB_REF} --oneline)
+          fi
           echo "::set-output name=NOTES::${commits}"
 
       - name: Create Release
