@@ -30,3 +30,9 @@ version = {attr = "twitter_client_py.__version__"}
 [tool.setuptools.dynamic.readme]
 file = "README.md"
 content-type = "text/markdown"
+
+[project.urls]
+homepage = "https://github.com/datarise-org-ma/twitter-client-py"
+repository = "https://github.com/datarise-org-ma/twitter-client-py"
+documentation = "https://github.com/datarise-org-ma/twitter-client-py/blob/main/README.md"
+issues = "https://github.com/datarise-org-ma/twitter-client-py/issues"

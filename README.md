@@ -1,10 +1,15 @@
-# Twitter Python Client for [Twitter/X Rapid API](https://rapidapi.com/datarise-datarise-default/api/twitter-x)
+# Unofficial Twitter Python Client for [Twitter/X Rapid API](https://rapidapi.com/datarise-datarise-default/api/twitter-x)
 
 <!-- Add badges for CI/CD, Code Coverage, PyPI, etc. -->
 [![PyPI](https://img.shields.io/pypi/v/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
+![Build Status](https://github.com/username/twitter-client-py/actions/workflows/build.yml/badge.svg)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
-[![PyPI - License](https://img.shields.io/pypi/l/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
+
+
+## Overview
+
+This is a Python client for interacting with the Twitter V2 API via the [RapidAPI platform](https://rapidapi.com/datarise-datarise-default/api/twitter-x). The library provides synchronous, asynchronous, and multi-threaded capabilities for retrieving Twitter user details and tweets.
 
 
 ## Installation

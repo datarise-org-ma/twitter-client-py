@@ -3,7 +3,7 @@ import logging
 __host__ = "twitter-x.p.rapidapi.com"
 __base__ = f"https://{__host__}/"
 __api__ = "https://rapidapi.com/datarise-datarise-default/api/twitter-x"
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 __author__ = "Datarise"
 __name__ = "twitter-client-py"
 
@@ -26,7 +26,7 @@ LOGGER = logging.getLogger(__name__)
 
 from .async_twitter_client import AsyncTwitterClient
 from .twitter_client import TwitterClient
-from rate_limit import RateLimit
+from .rate_limit import RateLimit
 
 __all__ = [
     "__base__",

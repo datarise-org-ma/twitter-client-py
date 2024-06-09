@@ -68,6 +68,18 @@ class TwitterClient:
         self.__session.close()
 
     def search(self, query, section="top", limit=20, cursor=None) -> requests.Response:
+        """
+        Search for tweets using the Twitter/X API.
+
+        Args:
+            query (str): The query to search for.
+            section (str): The section to search in. Possible values are "top", "latest", "people", "photos", "videos". Default is "top".
+            limit (int): The limit of tweets to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.__base_url}search/"
         LOGGER.info(
             f"[Search] Query: {query} - Section: {section} - Limit: {limit}",
@@ -92,6 +104,17 @@ class TwitterClient:
             return response
 
     def tweet_details(self, tweet_id: str, cursor=None) -> requests.Response:
+        """
+        Get details of a tweet using the Twitter/X API.
+
+        Args:
+            tweet_id (str): The ID of the tweet.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+
         url = f"{self.__base_url}tweet/"
         params = {
             "tweet_id": tweet_id,
@@ -116,6 +139,18 @@ class TwitterClient:
     def tweet_retweeters(
         self, tweet_id: str, limit=20, cursor=None
     ) -> requests.Response:
+        """
+        Get users who retweeted a tweet using the Twitter/X API.
+
+        Args:
+            tweet_id (str): The ID of the tweet.
+            limit (int): The limit of users to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+
         url = f"{self.__base_url}tweet/retweeters/"
         params = {
             "tweet_id": tweet_id,
@@ -141,6 +176,17 @@ class TwitterClient:
     def tweet_favoriters(
         self, tweet_id: str, limit=20, cursor=None
     ) -> requests.Response:
+        """
+        Get users who favorited a tweet using the Twitter/X API.
+
+        Args:
+            tweet_id (str): The ID of the tweet.
+            limit (int): The limit of users to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.__base_url}tweet/favoriters/"
         params = {
             "tweet_id": tweet_id,
@@ -166,6 +212,18 @@ class TwitterClient:
     def user_details(
         self, username: Optional[str] = None, user_id: Optional[str] = None
     ) -> requests.Response:
+        """
+        Get details of a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
         url = f"{self.__base_url}user/details"
         params = {}
         if username:
@@ -198,6 +256,21 @@ class TwitterClient:
         limit=20,
         cursor=None,
     ) -> requests.Response:
+        """
+        Get tweets of a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+            limit (int): The limit of tweets to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
         url = f"{self.__base_url}user/tweets"
         params = {
             "limit": limit,
@@ -234,6 +307,20 @@ class TwitterClient:
         limit=20,
         cursor=None,
     ) -> requests.Response:
+        """
+        Get tweets and replies of a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+            limit (int): The limit of tweets to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
         url = f"{self.__base_url}user/tweetsandreplies"
         params = {
             "limit": limit,
@@ -270,6 +357,20 @@ class TwitterClient:
         limit=20,
         cursor=None,
     ) -> requests.Response:
+        """
+        Get followers of a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+            limit (int): The limit of followers to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
         url = f"{self.__base_url}user/followers"
         params = {
             "limit": limit,
@@ -306,6 +407,22 @@ class TwitterClient:
         limit=20,
         cursor=None,
     ) -> requests.Response:
+        """
+        Get users followed by a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+            limit (int): The limit of users to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
+
         url = f"{self.__base_url}user/following"
         params = {
             "limit": limit,
@@ -342,6 +459,22 @@ class TwitterClient:
         limit=20,
         cursor=None,
     ) -> requests.Response:
+        """
+        Get tweets liked by a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+            limit (int): The limit of tweets to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
+
         url = f"{self.__base_url}user/likes"
         params = {
             "limit": limit,
@@ -378,6 +511,20 @@ class TwitterClient:
         limit=20,
         cursor=None,
     ) -> requests.Response:
+        """
+        Get media of a user using the Twitter/X API.
+
+        Args:
+            username (str): The username of the user. Default is None.
+            user_id (str): The ID of the user. Default is None.
+            limit (int): The limit of media to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+        if not username and not user_id:
+            raise ValueError("Either username or user_id must be provided.")
         url = f"{self.__base_url}user/media"
         params = {
             "limit": limit,
@@ -408,6 +555,15 @@ class TwitterClient:
             return response
 
     def list_details(self, list_id: str) -> requests.Response:
+        """
+        Get details of a list using the Twitter/X API.
+
+        Args:
+            list_id (str): The ID of the list.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.__base_url}lists/details"
         params = {
             "list_id": list_id,
@@ -428,6 +584,18 @@ class TwitterClient:
             return response
 
     def list_tweets(self, list_id: str, limit=20, cursor=None) -> requests.Response:
+        """
+        Get tweets of a list using the Twitter/X API.
+
+        Args:
+            list_id (str): The ID of the list.
+            limit (int): The limit of tweets to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+
         url = f"{self.__base_url}lists/tweets"
         params = {
             "list_id": list_id,
@@ -451,6 +619,12 @@ class TwitterClient:
             return response
 
     def trends_locations(self) -> requests.Response:
+        """
+        Get locations for trends using the Twitter/X API.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.__base_url}trends/available"
         LOGGER.info("[Trends Location]", extra={"limit": self.rate_limit.remaining})
         with self.__session.get(url, timeout=self.timeout) as response:
@@ -463,6 +637,15 @@ class TwitterClient:
             return response
 
     def trends(self, woeid: str) -> requests.Response:
+        """
+        Get trends for a location using the Twitter/X API.
+
+        Args:
+            woeid (str): The WOEID of the location, which can be obtained from trends_locations().
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.__base_url}trends/"
         params = {
             "woeid": woeid,
@@ -482,6 +665,15 @@ class TwitterClient:
             return response
 
     def community_details(self, community_id: str) -> requests.Response:
+        """
+        Get details of a community using the Twitter/X API.
+
+        Args:
+            community_id (str): The ID of the community.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.__base_url}community/details"
         params = {
             "community_id": community_id,
@@ -504,6 +696,17 @@ class TwitterClient:
     def community_tweets(
         self, community_id: str, limit=20, cursor=None
     ) -> requests.Response:
+        """
+        Get tweets of a community using the Twitter/X API.
+
+        Args:
+            community_id (str): The ID of the community.
+            limit (int): The limit of tweets to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
         url = f"{self.__base_url}community/tweets"
         params = {
             "community_id": community_id,
@@ -529,6 +732,18 @@ class TwitterClient:
     def community_members(
         self, community_id: str, limit=20, cursor=None
     ) -> requests.Response:
+        """
+        Get members of a community using the Twitter/X API.
+
+        Args:
+            community_id (str): The ID of the community.
+            limit (int): The limit of members to return. Default is 20.
+            cursor (str): The cursor for pagination. Default is None.
+
+        Returns:
+            requests.Response: The response from the API.
+        """
+
         url = f"{self.__base_url}community/members"
         params = {
             "community_id": community_id,
