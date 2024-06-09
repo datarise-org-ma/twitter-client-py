@@ -7,5 +7,6 @@ name = "twitter-client-py"
 authors = [{ name = "Omar MHAIMDAT", email = "omarmhaimdat@gmail.com" }]
 version = "0.2.0"
 description = "Python client for interacting with Twitter V2 API available at https://rapidapi.com/datarise-datarise-default/api/twitter-x"
+long_description = { file = "README.md", content_type = "text/markdown" }
 requires-python = ">=3.7"
 dependencies = ["aiohttp", "requests"]
