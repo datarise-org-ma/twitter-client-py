@@ -5,7 +5,19 @@
 ![Build Status](https://github.com/datarise-org-ma/twitter-client-py/actions/workflows/ci.yaml/badge.svg)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/twitter-client-py)](https://pypi.org/project/twitter-client-py/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Simple Example](#simple-example)
+  - [Advanced Example](#advanced-example)
+  - [Asynchronous Example](#asynchronous-example)
+  - [Check Rate Limit](#check-rate-limit)
+- [License](#license)
+- [Contact](#contact)
 
 ## Overview
 
