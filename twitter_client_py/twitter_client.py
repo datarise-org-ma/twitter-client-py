@@ -4,7 +4,7 @@ import logging
 
 import requests
 
-from . import __base__, __api__, __host__, LOGGER, setup_logging
+from . import __base__, __api__, __host__, LOGGER, setup_logging, __name__, __version__
 from .rate_limit import RateLimit
 
 
@@ -28,7 +28,6 @@ class TwitterClient:
         user_tweets_and_replies(username=None, user_id=None, limit=20, cursor=None): Get tweets and replies of a user.
         user_followers(username=None, user_id=None, limit=20, cursor=None): Get followers of a user.
         user_following(username=None, user_id=None, limit=20, cursor=None): Get users followed by a user.
-        user_likes(username=None, user_id=None, limit=20, cursor=None): Get tweets liked by a user.
         user_media(username=None, user_id=None, limit=20, cursor=None): Get media of a user.
         list_details(list_id): Get details of a list.
         list_tweets(list_id, limit=20, cursor=None): Get tweets of a list.
@@ -51,6 +50,13 @@ class TwitterClient:
             LOGGER = setup_logging(logging.DEBUG)
         else:
             LOGGER = setup_logging(logging.INFO)
+            
+    def __user_agent(self) -> str:
+        package_name = __name__
+        package_version = __version__
+        # Session user-agent
+        default_session_user_agent = self.__session.headers.get("User-Agent")
+        return f"{default_session_user_agent} {package_name}/{package_version}"
 
     def __get_headers(self):
         return {
@@ -448,58 +454,6 @@ class TwitterClient:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(
                 f"[User Following] Response: {response.status_code}, elapsed time: {response.elapsed.total_seconds()}",
-                extra={"limit": self.rate_limit.remaining},
-            )
-            return response
-
-    def user_likes(
-        self,
-        username: Optional[str] = None,
-        user_id: Optional[str] = None,
-        limit=20,
-        cursor=None,
-    ) -> requests.Response:
-        """
-        Get tweets liked by a user using the Twitter/X API.
-
-        Args:
-            username (str): The username of the user. Default is None.
-            user_id (str): The ID of the user. Default is None.
-            limit (int): The limit of tweets to return. Default is 20.
-            cursor (str): The cursor for pagination. Default is None.
-
-        Returns:
-            requests.Response: The response from the API.
-        """
-
-        if not username and not user_id:
-            raise ValueError("Either username or user_id must be provided.")
-
-        url = f"{self.__base_url}user/likes"
-        params = {
-            "limit": limit,
-        }
-        if username:
-            params["username"] = username
-            LOGGER.info(
-                f"[User Likes] Username: {username} - Limit: {limit}",
-                extra={"limit": self.rate_limit.remaining},
-            )
-        if user_id:
-            params["user_id"] = user_id
-            LOGGER.info(
-                f"[User Likes] User ID: {user_id} - Limit: {limit}",
-                extra={"limit": self.rate_limit.remaining},
-            )
-        if cursor:
-            params["cursor"] = cursor
-        with self.__session.get(
-            url, params=params, headers=self.__headers, timeout=self.timeout
-        ) as response:
-            if response.status_code == 200:
-                self.rate_limit = RateLimit.from_headers(response.headers)
-            LOGGER.debug(
-                f"[User Likes] Response: {response.status_code}, elapsed time: {response.elapsed.total_seconds()}",
                 extra={"limit": self.rate_limit.remaining},
             )
             return response
