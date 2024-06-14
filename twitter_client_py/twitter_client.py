@@ -582,7 +582,7 @@ class TwitterClient:
         """
         url = f"{self.__base_url}trends/available"
         LOGGER.info("[Trends Location]", extra={"limit": self.rate_limit.remaining})
-        with self.__session.get(url, timeout=self.timeout) as response:
+        with self.__session.get(url, timeout=self.timeout, headers=self.__headers) as response:
             if response.status_code == 200:
                 self.rate_limit = RateLimit.from_headers(response.headers)
             LOGGER.debug(

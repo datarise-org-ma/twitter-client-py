@@ -552,7 +552,7 @@ class AsyncTwitterClient:
         url = f"{self.base_url}trends/available"
         LOGGER.info("[Trends Locations]", extra={"limit": self.rate_limit.remaining})
         start = time.perf_counter()
-        response = await self.__session.get(url, timeout=self.timeout)
+        response = await self.__session.get(url, timeout=self.timeout, headers=self.__headers)
         if response.status == 200:
             self.rate_limit = RateLimit.from_headers(response.headers)
         LOGGER.debug(
