@@ -63,6 +63,7 @@ class TwitterClient:
             "x-rapidapi-key": f"{self.api_key}",
             "x-rapidapi-host": __host__,
             "Content-Type": __host__,
+            "User-Agent": self.__user_agent(),
         }
 
     def __enter__(self):
