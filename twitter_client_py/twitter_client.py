@@ -44,8 +44,8 @@ class TwitterClient:
         self.verbose: bool = verbose
         self.timeout: int = timeout
         self.__base_url: str = __base__
-        self.__headers: Dict = self.__get_headers()
         self.__session: Optional[requests.Session] = requests.Session()
+        self.__headers: Dict = self.__get_headers()
         if self.verbose:
             LOGGER = setup_logging(logging.DEBUG)
         else:

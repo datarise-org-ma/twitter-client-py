@@ -47,10 +47,10 @@ class AsyncTwitterClient:
         self.base_url: str = __base__
         self.api_key: str = api_key
         self.loop = loop if loop is not None else asyncio.get_event_loop()
-        self.__headers: Dict = self.__get_headers()
         self.__session: Optional[aiohttp.ClientSession] = aiohttp.ClientSession(
             loop=self.loop
         )
+        self.__headers: Dict = self.__get_headers()
         self.__session.headers.update(self.__headers)
         self.rate_limit: Optional[RateLimit] = RateLimit(0, 0, 0)
         self.verbose: bool = verbose
